@@ -1,0 +1,37 @@
+Browser Agent - Unix support v10.6.0.165:10.6.0.165
+MuleESB v10.6.0.165:10.6.0.165
+Automatic Attribute Decoration v10.6.0.165:10.6.0.165
+Spring v10.6.0.165:10.6.0.165
+AWS Backend Tracing v10.6.0.165:10.6.0.165
+Spring Boot v10.6.0.165:10.6.0.165
+Spring RabbitMQ v10.6.0.165:10.6.0.165
+Spring Mongo v10.6.0.165:10.6.0.165
+Spring Async v10.6.0.165:10.6.0.165
+Servlets & JSPs v10.6.0.165:10.6.0.165
+ Override TurnOn: ServletFilterTracing with instrument.ServletFilterTracing=off
+Other Java Application v10.6.0.165:10.6.0.165
+HTTP Backends v10.6.0.165:10.6.0.165
+Web Services v10.6.0.165:10.6.0.165
+Command Center v10.6.0.165:10.6.0.165
+JNDI v10.6.0.165:10.6.0.165
+EJBs v10.6.0.165:10.6.0.165
+JMS v10.6.0.165:10.6.0.165
+Sockets v10.6.0.165:10.6.0.165
+JMX v10.6.0.165:10.6.0.165
+CPU - Unix support v10.6.0.165:10.6.0.165
+CPU v10.6.0.165:10.6.0.165
+Garbage Collection v10.6.0.165:10.6.0.165
+JSF v10.6.0.165:10.6.0.165
+SQL v10.6.0.165:10.6.0.165
+Extension for Cloud Provider Tracing v1.0.0.0:1.0.0.0
+Struts v10.6.0.165:10.6.0.165
+EM Connection v10.6.0.165:10.6.0.165
+ Adding agentManager.credential=4e837522-1a21-478f-866e-457e4b3412f5
+ Override agentManager.url.1= with agentManager.url.1=https://153525.staging.apm.cloud.ca.com:443
+Java Agent - Unix Support v10.6.0.165:10.6.0.165
+Java Agent v10.6.0.165:10.6.0.165
+Java Agent Base v10.6.0.165:10.6.0.165
+ Override log4j.appender.logfile.MaxFileSize=2MB with log4j.appender.logfile.MaxFileSize=20MB
+ Adding introscope.agent.agentName=AgentName
+ Override introscope.agent.deep.instrumentation.level=low with introscope.agent.deep.instrumentation.level=high
+Browser Agent v10.6.0.165:10.6.0.165
