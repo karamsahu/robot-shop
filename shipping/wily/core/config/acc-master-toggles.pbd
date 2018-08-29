@@ -1,0 +1,225 @@
+################################################################################
+# Introscope ProbeBuilder Directives File
+#
+# This pbd file provides TurnOn toggle switches to determine honoring
+# of other directives in subsequent pbd files
+#
+################################################################################
+
+
+# Instrument HTTP Servlets. Produces metrics under "Frontends|Apps". Do not
+# remove unless your application does not use Servlets. 
+TurnOn: HTTPServletTracing
+
+# Instrument Servlet Filters. Produces metrics under "Frontends|Apps". Do not
+# remove unless your application does not use Servlet Filters. 
+TurnOff: ServletFilterTracing
+
+# Instrument Java Server Pages (JSPs). Usually not very interesting in a
+# production environment as JSPs are usually quite fast and this can create an
+# abundance of metrics. 
+TurnOn: JSPTracing
+
+# Instrument Java Server Pages (JSPs). Usually not very interesting in a
+# production environment as JSPs are usually quite fast and this can create an
+# abundance of metrics. 
+TurnOn: JSPServletTracing
+
+# Instrument JSP Taglibs. Do not enable in production unless you suspect a
+# performance problem related to taglibs as this may create a lot of metrics and
+# add some overhead to your application. 
+#TurnOn: JSPTagLibraryTracing
+
+# Instrument JSP IO Taglibs. Do not enable in production unless you suspect a
+# performance problem related to taglibs as this may create a lot of metrics and
+# add some overhead to your application. 
+#TurnOn: JSPIOTagLibraryTracing
+
+# Instrument JSP DB Taglibs. Do not enable in production unless you suspect a
+# performance problem related to taglibs as this may create a lot of metrics and
+# add some overhead to your application. 
+#TurnOn: JSPDBTagsTagLibraryTracing
+
+
+
+# Instrument searches and lookups of JNDI resources.
+TurnOn: JNDITracing
+
+
+TurnOn: EJB2StubTracing
+
+# Instrument EJB 2 Session Beans.
+TurnOn: SessionBeanTracing
+
+# Instrument EJB 2 Entity Beans.
+TurnOn: EntityBeanTracing
+
+# Instrument EJB 2 Message Driven Beans.
+TurnOn: MessageDrivenBeanTracing
+
+# Reports data for each EJB method instead of aggregating at the Bean level. Use
+# with care as this may create a lot of metrics.
+#TurnOn: EJBMethodLevelTracing
+TurnOn: EJB3StubTracing
+
+# Instrument EJB 3 Session Beans.
+TurnOn: SessionBean3Tracing
+
+# Instrument EJB 3 Entity Beans.
+TurnOn: EntityBean3Tracing
+
+# Instrument EJB 3 Message Driven Beans.
+TurnOn: MessageDrivenBean3Tracing
+
+# Reports data for each EJB method instead of aggregating at the Bean level. Use
+# with care as this may create a lot of metrics.
+#TurnOn: EJB3MethodLevelTracing
+
+
+
+# Instrument JMS listeners. Produces metrics under "Frontends|Messaging
+# Services" and correlates transactions with the JMS producing application. 
+TurnOn: JMSListenerTracing
+
+# Instrument JMS consumers. Produces metrics under "Frontends|Messaging
+# Services" and correlates transactions with the JMS producing application. 
+TurnOn: JMSConsumerTracing
+
+# Instrument JMS publishers. Produces metrics under "Backends|Messaging
+# Services" and inserts correlation ids in the header of ougoing JMS messages. 
+TurnOn: JMSPublisherTracing
+
+# Instrument JMS senders. Produces metrics under "Backends|Messaging Services"
+# and inserts correlation ids in the header of ougoing JMS messages. 
+TurnOn: JMSSenderTracing
+
+
+
+# You can control socket metric explosions by using the following properties. 
+#
+# Socket Metrics Generation of I/O Socket metrics may be restricted by the
+# following 'socket' parameters. Each parameter consists of a comma-separate
+# list of values.  If any individual value is invalid, it will be ignored.  If
+# any parameter is not defined, or after exclusion of any invalid values is an
+# empty list, no restriction will apply to that parameter. 
+#
+# IO Metrics Generation of Datagram and Socket metrics may be restricted by the
+# following 'nio' parameters. Each parameter consists of a comma-separate list
+# of values.  If any individual value is invalid, it will be ignored.  If any
+# parameter is not defined, or after exclusion of any invalid values is an empty
+# list, no restriction will apply to that parameter. 
+
+# Instrument client and server sockets. Creates metrics under the Sockets node
+# in the Investigator, as well as automatic "Backends" nodes for
+# non-instrumented backends. 
+TurnOn: SocketTracing
+
+# Instrument incoming and outcoming UDP datagrams.
+TurnOn: UDPTracing
+
+# Instrument client and server Java NIO sockets. Creates metrics under the NIO
+# node in the Investigator, as well as automatic "Backends" nodes for
+# non-instrumented backends. 
+TurnOn: NIOSocketTracing
+
+# Enable summary metrics for Java NIO Sockets under the NIO Investigator node.
+TurnOn: NIOSocketSummaryTracing
+
+# Instrument Java NIO Selectors.
+TurnOn: NIOSelectorTracing
+
+# Instrument Java NIO Datagrams. Creates metrics under the NIO node in the
+# Investigator, as well as automatic "Backends" nodes for non-instrumented
+# backends. 
+TurnOn: NIODatagramTracing
+
+# Enable summary metrics for Java NIO Datagrams under the NIO Investigator node.
+TurnOn: NIODatagramSummaryTracing
+
+
+
+# Instrument Java Server Faces (JSF) Applications.
+TurnOn: JSF_ApplicationTracing
+
+# Instrument Java Server Faces (JSF) Lifecycles.
+TurnOn: JSF_LifecycleTracing
+
+# Instrument Java Server Faces (JSF) Events.
+TurnOn: JSF_EventTracing
+
+
+
+# You can control sql metric explosions by adjusting the fidelity of collected
+# sql metrics using the following configuration properties. 
+
+# Instrument JDBC SQL queries. Creates "Backends|{databasename}|SQL|{query}"
+# metrics. 
+TurnOn: JDBCQueryTracing
+
+# Instrument JDBC SQL updates. Creates "Backends|{databasename}|SQL|{query}"
+# metrics. 
+TurnOn: JDBCUpdateTracing
+
+# Hooks to instrument the Apache DBCP JDBC driver.
+TurnOn: DBCPv55Tracing
+
+# Hooks to instrument the Apache DBCP JDBC v5 driver.
+TurnOn: DBCPTracing
+
+
+
+# This is the main Java Agent configuration. You can set custom log file
+# locations, HTTP URLs normalization patterns, various safety clamps and
+# advanced configuration parameters. 
+
+# Instrument the XML SAX parser. Usually not interesting in production
+# monitoring. Enable only if you suspect your application has a performance
+# problem in this area. 
+#TurnOn: XMLSAXTracing
+
+# Instrument XSL Transformations. Usually not interesting in production
+# monitoring. Enable only if you suspect your application has a performance
+# problem in this area. 
+#TurnOn: XSLTTracing
+
+# Instrument the Java Transaction API (JTA). Usually not interesting in
+# production monitoring. Enable only if you # suspect your application has a
+# performance problem in this area. 
+#TurnOn: JTACommitTracing
+
+# Instrument the JavaMail API.
+TurnOn: JavaMailTransportTracing
+
+# Instrument the Java XML Messaging API (JAXM). Usually not interesting in
+# production monitoring. Enable only if you suspect your application has a
+# performance problem in this area. 
+#TurnOn: JAXMListenerTracing
+
+# Instrument JCA connectors.
+TurnOn: J2eeConnectorTracing
+
+# Instrument classes implementing the java.rmi.server.RemoteStub interface.
+TurnOn: RMIClientTracing
+
+# Instrument classes implementing the java.rmi.server.Skeleton interface.
+TurnOn: RMIServerTracing
+
+# Instrument file system interactions. Usually not interesting in production
+# monitoring. Enable only if you suspect your application has a performance
+# problem in this area. 
+#TurnOn: FileSystemTracing
+
+# Indicates the number of Active threads by thread name.  Usually not
+# interesting in production monitoring. Enable only if you suspect your
+# application has a performance problem in this area. 
+#TurnOn: ThreadTracing
+
+# Instrument Corba interactions.
+TurnOn: CorbaTracing
+
+# Gives a count of the number of live objects of a particular class. To use it,
+# create a custom pbd file and flag the classes you want to track. 
+TurnOn: InstanceCounts
+
+
+

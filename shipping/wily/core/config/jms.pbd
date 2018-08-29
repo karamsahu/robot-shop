@@ -1,0 +1,305 @@
+########################################################################
+# Introscope ProbeBuilder Directives File                              
+# 
+# Version: 10.6.0.165
+# Build: 990165
+#                                                                       
+# CA Wily Introscope(R) Version 10.6.0 Release 10.6.0.165
+# Copyright &copy; 2018 CA. All Rights Reserved.
+# Introscope(R) is a registered trademark of CA.
+########################################################################
+
+#############################################################
+# This file provides tracer groups
+#   for common JMS API.
+# Please use either toggles-full.pbd or toggles-typical.pbd
+#   to TurnOn specific tracing. 
+#############################################################
+
+#######################
+# JMS Tracer Group
+# ================
+# Defines the directives necessary for JMS tracing.
+
+# JMS[Listener]Frontend tracers. Aggregator before marker.
+SetTracerClassMapping: JMSFrontendAggregator com.wily.introscope.agent.trace.frontend.jms.JMSFrontendAggregator com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerParameter: JMSFrontendAggregator nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSNameFormatter
+SetTracerOrdering: JMSFrontendAggregator -90000
+SetTracerParameter: JMSFrontendAggregator reentrancy instance
+
+SetTracerClassMapping: JMSFrontendMarker com.wily.introscope.agent.trace.frontend.jms.JMSFrontendTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerParameter: JMSFrontendMarker nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSNameFormatter
+SetTracerParameter: JMSFrontendMarker newmode true
+SetTracerParameter: JMSFrontendMarker useblame true
+SetTracerParameter: JMSFrontendMarker reentrancy instance
+SetTracerOrdering: JMSFrontendMarker -89900
+
+####WARNING: Always make sure that the following two tracers are first two on receive method. Failure to do so may result in stack corruption and bad metrics.
+#### 1. com.wily.introscope.agent.trace.frontend.jms.JMSReceiveFrontendTracer (lowest tracer order)
+#### 2. com.wily.introscope.agent.trace.frontend.jms.JMSReceiveFrontendAggregator (second lowest tracer order)
+        
+SetTracerClassMapping: JMSReceiveFrontendMarker com.wily.introscope.agent.trace.frontend.jms.JMSReceiveFrontendTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerParameter: JMSReceiveFrontendMarker nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSReceiverNameFormatter
+SetTracerParameter: JMSReceiveFrontendMarker newmode true
+SetTracerParameter: JMSReceiveFrontendMarker useblame true
+SetTracerParameter: JMSReceiveFrontendMarker reentrancy instance
+SetTracerOrdering: JMSReceiveFrontendMarker -90000
+
+SetTracerClassMapping: JMSReceiveFrontendAggregator com.wily.introscope.agent.trace.frontend.jms.JMSReceiveFrontendAggregator com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerParameter: JMSReceiveFrontendAggregator nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSReceiverNameFormatter
+SetTracerParameter: JMSReceiveFrontendAggregator newmode true
+SetTracerParameter: JMSReceiveFrontendAggregator useblame true
+SetTracerParameter: JMSReceiveFrontendAggregator reentrancy instance
+SetTracerOrdering: JMSReceiveFrontendAggregator -80000
+
+# JMS[Producer]Backend tracers. Aggregator before marker.
+SetTracerClassMapping: JMSBackendAggregator com.wily.introscope.agent.trace.backend.jms.tracer.JMSAggregatorTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerParameter: JMSBackendAggregator nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSProducerNameFormatter
+SetTracerParameter: JMSBackendAggregator reentrancy instance
+SetTracerOrdering: JMSBackendAggregator 100
+
+SetTracerClassMapping: JMSBackendMarker com.wily.introscope.agent.trace.backend.jms.tracer.JMSBackendTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerParameter: JMSBackendMarker nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSProducerNameFormatter
+SetTracerParameter: JMSBackendMarker reentrancy instance
+SetTracerOrdering: JMSBackendMarker 200
+
+# JMSReceiveBackend tracers. Aggregator before marker.
+SetTracerClassMapping: JMSReceiveBackendAggregator com.wily.introscope.agent.trace.backend.jms.tracer.JMSReceiveBackendAggregatorTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerParameter: JMSReceiveBackendAggregator reentrancy instance
+SetTracerParameter: JMSReceiveBackendAggregator nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSReceiverNameFormatter
+SetTracerOrdering: JMSReceiveBackendAggregator -70000
+ 
+SetTracerClassMapping: JMSReceiveBackendMarker com.wily.introscope.agent.trace.backend.jms.tracer.JMSReceiveBackendTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerParameter: JMSReceiveBackendMarker reentrancy instance
+SetTracerParameter: JMSReceiveBackendMarker nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSReceiverNameFormatter
+SetTracerOrdering: JMSReceiveBackendMarker -60000
+
+SetTracerClassMapping: JMSSessionTracer com.wily.introscope.agent.trace.backend.jms.tracer.JMSSessionTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+
+SetTracerClassMapping: JMSReceiveFrontendErrorReporter com.wily.introscope.agent.trace.frontend.jms.JMSReceiveFrontendErrorTracer com.wily.introscope.probebuilder.validate.MetricNameValidator
+SetTracerParameter: JMSReceiveFrontendErrorReporter reentrancy instance
+SetTracerParameter: JMSReceiveFrontendErrorReporter nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSReceiverNameFormatter
+
+SetTracerClassMapping: JMSProducerErrorReporter com.wily.introscope.agent.trace.hc2.MethodThrewErrorReportingTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerParameter: JMSProducerErrorReporter reentrancy instance
+SetTracerParameter: JMSProducerErrorReporter nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSProducerNameFormatter
+SetTracerOrdering: JMSProducerErrorReporter 201
+
+SetTracerClassMapping: JMSReceiveBackendErrorReporter com.wily.introscope.agent.trace.backend.jms.tracer.JMSReceiveBackendErrorTracer com.wily.introscope.probebuilder.validate.MetricNameValidator
+SetTracerParameter: JMSReceiveBackendErrorReporter nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSReceiverNameFormatter
+SetTracerParameter: JMSReceiveBackendErrorReporter reentrancy instance
+SetTracerOrdering: JMSReceiveBackendErrorReporter 200
+
+SetTracerClassMapping: JMSListenerErrorReporter com.wily.introscope.agent.trace.backend.jms.tracer.JMSListenerErrorTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerParameter: JMSListenerErrorReporter nameformatter com.wily.introscope.agent.trace.backend.jms.nameformatter.JMSReceiverNameFormatter
+SetTracerOrdering: JMSListenerErrorReporter 201
+
+SetTracerClassMapping: JMSReceiveParentDetectionTracer com.wily.introscope.agent.trace.frontend.jms.JMSReceiveParentDetectionTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerParameter: JMSReceiveParentDetectionTracer reentrancy instance
+
+
+#########JMSProducerTracing instruments send() methods defined in the interface javax.jms.MessageProducer ######################
+
+SetFlag: JMSProducerTracing
+TurnOn: JMSProducerTracing
+
+IdentifyDeepInheritedAs: javax.jms.MessageProducer JMSProducerTracing
+IdentifyClassAs: org.apache.activemq.ActiveMQMessageProducer JMSProducerTracing
+
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Message;)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Message;)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Message;IIJ)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Message;IIJ)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Destination;Ljavax/jms/Message;)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Destination;Ljavax/jms/Message;)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Destination;Ljavax/jms/Message;IIJ)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Destination;Ljavax/jms/Message;IIJ)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Message;)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Message;IIJ)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Destination;Ljavax/jms/Message;)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSProducerTracing send(Ljavax/jms/Destination;Ljavax/jms/Message;IIJ)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+
+
+#########JMSListenerTracing instruments methods defined in the interface javax.jms.MessageListener ######################
+
+IdentifyInheritedAs: javax.jms.MessageListener JMSListenerTracing
+
+TraceOneMethodWithParametersIfFlagged: JMSListenerTracing onMessage(Ljavax/jms/Message;)V JMSFrontendMarker "Messaging Services (onMessage)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSListenerTracing onMessage(Ljavax/jms/Message;)V JMSFrontendAggregator "Frontends|Messaging Services (onMessage)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSListenerTracing onMessage(Ljavax/jms/Message;)V JMSListenerErrorReporter "Messaging Services (onMessage)|{jmsdestinationtype}|{destinationname}"
+
+
+#########JMSPublisherTracing instruments publish() defined in the interface javax.jms.TopicPublisher ######################
+
+IdentifyInheritedAs: javax.jms.TopicPublisher JMSPublisherTracing
+
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Message;)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Message;)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Message;IIJ)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Message;IIJ)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Topic;Ljavax/jms/Message;)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Topic;Ljavax/jms/Message;)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Topic;Ljavax/jms/Message;IIJ)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Topic;Ljavax/jms/Message;IIJ)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Message;)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Message;IIJ)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Topic;Ljavax/jms/Message;)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSPublisherTracing publish(Ljavax/jms/Topic;Ljavax/jms/Message;IIJ)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+
+
+#########JMSSenderTracing instruments send() defined in the interface javax.jms.QueueSender ######################
+
+IdentifyInheritedAs: javax.jms.QueueSender JMSSenderTracing
+
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Message;)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Message;)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Message;IIJ)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Message;IIJ)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Queue;Ljavax/jms/Message;)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Queue;Ljavax/jms/Message;)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Queue;Ljavax/jms/Message;IIJ)V JMSBackendMarker "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Queue;Ljavax/jms/Message;IIJ)V JMSBackendAggregator "Backends|Messaging Services (outgoing)|{jmsdestinationtype}"
+
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Message;)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Message;IIJ)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Queue;Ljavax/jms/Message;)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSSenderTracing send(Ljavax/jms/Queue;Ljavax/jms/Message;IIJ)V JMSProducerErrorReporter "Backends|Messaging Services (outgoing)|{jmsdestinationtype}|{destinationname}"
+
+
+#########JMSConsumerTracing instruments receive() defined in the interface javax.jms.MessageConsumer ######################
+
+IdentifyDeepInheritedAs: javax.jms.MessageConsumer JMSConsumerTracing
+IdentifyClassAs: org.apache.activemq.ActiveMQMessageConsumer JMSConsumerTracing
+
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive()Ljavax/jms/Message; JMSReceiveParentDetectionTracer -
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive(J)Ljavax/jms/Message; JMSReceiveParentDetectionTracer -
+
+
+##Frontend Metrics for Receive Calls
+
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive()Ljavax/jms/Message; JMSReceiveFrontendMarker "Messaging Services (receive)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive()Ljavax/jms/Message; JMSReceiveFrontendAggregator "Frontends|Messaging Services (receive)|{jmsdestinationtype}"
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive()Ljavax/jms/Message; JMSReceiveFrontendErrorReporter "Frontends|Messaging Services (receive)|{jmsdestinationtype}|{destinationname}:Errors Per Interval"
+
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive(J)Ljavax/jms/Message; JMSReceiveFrontendMarker "Messaging Services (receive)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive(J)Ljavax/jms/Message; JMSReceiveFrontendAggregator "Frontends|Messaging Services (receive)|{jmsdestinationtype}"
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive(J)Ljavax/jms/Message; JMSReceiveFrontendErrorReporter "Frontends|Messaging Services (receive)|{jmsdestinationtype}|{destinationname}:Errors Per Interval"
+
+##Backend Metrics for Receive Calls
+
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive()Ljavax/jms/Message; JMSReceiveBackendMarker "Backends|Messaging Services (receive)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive()Ljavax/jms/Message; JMSReceiveBackendAggregator "Backends|Messaging Services (receive)|{jmsdestinationtype}"
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive()Ljavax/jms/Message; JMSReceiveBackendErrorReporter "Backends|Messaging Services (receive)|{jmsdestinationtype}|{destinationname}:Errors Per Interval"
+
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive(J)Ljavax/jms/Message; JMSReceiveBackendMarker "Backends|Messaging Services (receive)|{jmsdestinationtype}|{destinationname}"
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive(J)Ljavax/jms/Message; JMSReceiveBackendAggregator "Backends|Messaging Services (receive)|{jmsdestinationtype}"
+TraceOneMethodWithParametersIfFlagged: JMSConsumerTracing receive(J)Ljavax/jms/Message; JMSReceiveBackendErrorReporter "Backends|Messaging Services (receive)|{jmsdestinationtype}|{destinationname}:Errors Per Interval"
+
+
+#########JMS Session Tracer keeps the mappings of JMSConsumer/JMSProducer instances Vs JMSDestination objects######################
+
+SetFlag: JMSSessionTracing
+TurnOn: JMSSessionTracing
+
+IdentifyDeepInheritedAs: javax.jms.Session JMSSessionTracing
+IdentifyClassAs: org.apache.activemq.ActiveMQSession JMSSessionTracing
+IdentifyInheritedAs: javax.jms.QueueSession JMSSessionTracing
+IdentifyInheritedAs: javax.jms.TopicSession JMSSessionTracing
+
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createConsumer(Ljavax/jms/Destination;)Ljavax/jms/MessageConsumer; JMSSessionTracer "{method}"
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createConsumer(Ljavax/jms/Destination;Ljava/lang/String;)Ljavax/jms/MessageConsumer; JMSSessionTracer "{method}"
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createConsumer(Ljavax/jms/Destination;Ljava/lang/String;Z)Ljavax/jms/MessageConsumer; JMSSessionTracer "{method}"
+
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createDurableSubscriber(Ljavax/jms/Topic;Ljava/lang/String;)Ljavax/jms/TopicSubscriber; JMSSessionTracer "{method}"
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createDurableSubscriber(Ljavax/jms/Topic;Ljava/lang/String;Ljava/lang/String;Z)Ljavax/jms/TopicSubscriber; JMSSessionTracer "{method}"
+
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createProducer(Ljavax/jms/Destination;)Ljavax/jms/MessageProducer; JMSSessionTracer "{method}"
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createSender(Ljavax/jms/Queue;)Ljavax/jms/QueueSender; JMSSessionTracer "{method}"
+
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createReceiver(Ljavax/jms/Queue;Ljava/lang/String;)Ljavax/jms/QueueReceiver; JMSSessionTracer "{method}"
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createReceiver(Ljavax/jms/Queue;)Ljavax/jms/QueueReceiver; JMSSessionTracer "{method}"
+
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createPublisher(Ljavax/jms/Topic;)Ljavax/jms/TopicPublisher; JMSSessionTracer "{method}"
+
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createSubscriber(Ljavax/jms/Topic;)Ljavax/jms/TopicSubscriber; JMSSessionTracer "{method}"
+TraceOneMethodWithParametersIfFlagged: JMSSessionTracing createSubscriber(Ljavax/jms/Topic;Ljava/lang/String;Z)Ljavax/jms/TopicSubscriber; JMSSessionTracer "{method}"
+
+
+########################################################################
+# Tracers for Correlation of JMS.
+########################################################################
+
+SetFlag: JMSCorrelationTracing
+TurnOn: JMSCorrelationTracing
+
+# JMS[Outgoing]Correlation tracers. Aggregator before marker.
+SetTracerClassMapping: JMSOutgoingCorrelator com.wily.introscope.agent.trace.correlation.jms.JMSOutgoingCorrelationTracer com.wily.introscope.probebuilder.validate.MetricNameValidator
+SetTracerParameter: JMSOutgoingCorrelator reentrancy instance
+###Ensure that the tracer executes after a blame tracer
+SetTracerOrdering: JMSOutgoingCorrelator 1300
+
+# JMS[Incoming]Correlation tracers.
+SetTracerClassMapping: JMSByParamIncomingCorrelator com.wily.introscope.agent.trace.correlation.jms.JMSIncomingCorrelationByParamTracer com.wily.introscope.probebuilder.validate.MetricNameValidator
+SetTracerParameter: JMSByParamIncomingCorrelator reentrancy instance
+###Ensure that the tracer executes after a blame tracer
+SetTracerOrdering: JMSByParamIncomingCorrelator 1300
+
+
+#########JMSProducerTracing instruments send() methods defined in the interface javax.jms.MessageProducer ######################
+
+SetFlag: JMSProducerCorrelationTracing
+IdentifyTwoFlagIntersectionAsAggregateFlag: JMSProducerTracing JMSCorrelationTracing JMSProducerCorrelationTracing
+
+TraceOneMethodWithParametersIfFlagged: JMSProducerCorrelationTracing send(Ljavax/jms/Message;)V JMSOutgoingCorrelator "MessageProducer"
+TraceOneMethodWithParametersIfFlagged: JMSProducerCorrelationTracing send(Ljavax/jms/Message;IIJ)V JMSOutgoingCorrelator "MessageProducer"
+TraceOneMethodWithParametersIfFlagged: JMSProducerCorrelationTracing send(Ljavax/jms/Destination;Ljavax/jms/Message;)V JMSOutgoingCorrelator "MessageProducer"
+TraceOneMethodWithParametersIfFlagged: JMSProducerCorrelationTracing send(Ljavax/jms/Destination;Ljavax/jms/Message;IIJ)V JMSOutgoingCorrelator "MessageProducer"
+
+
+#########JMSPublisherTracing instruments publish() defined in the interface javax.jms.TopicPublisher ######################
+
+SetFlag: JMSPublisherCorrelationTracing
+IdentifyTwoFlagIntersectionAsAggregateFlag: JMSPublisherTracing JMSCorrelationTracing JMSPublisherCorrelationTracing
+
+TraceOneMethodWithParametersIfFlagged: JMSPublisherCorrelationTracing publish(Ljavax/jms/Message;)V JMSOutgoingCorrelator "TopicPublisher"
+TraceOneMethodWithParametersIfFlagged: JMSPublisherCorrelationTracing publish(Ljavax/jms/Message;IIJ)V JMSOutgoingCorrelator "TopicPublisher"
+TraceOneMethodWithParametersIfFlagged: JMSPublisherCorrelationTracing publish(Ljavax/jms/Topic;Ljavax/jms/Message;)V JMSOutgoingCorrelator "TopicPublisher"
+TraceOneMethodWithParametersIfFlagged: JMSPublisherCorrelationTracing publish(Ljavax/jms/Topic;Ljavax/jms/Message;IIJ)V JMSOutgoingCorrelator "TopicPublisher"
+
+
+#########JMSSenderTracing instruments send() defined in the interface javax.jms.QueueSender ######################
+
+SetFlag: JMSSenderCorrelationTracing
+IdentifyTwoFlagIntersectionAsAggregateFlag: JMSSenderTracing JMSCorrelationTracing JMSSenderCorrelationTracing
+
+TraceOneMethodWithParametersIfFlagged: JMSSenderCorrelationTracing send(Ljavax/jms/Message;)V JMSOutgoingCorrelator "QueueSender"
+TraceOneMethodWithParametersIfFlagged: JMSSenderCorrelationTracing send(Ljavax/jms/Message;IIJ)V JMSOutgoingCorrelator "QueueSender"
+TraceOneMethodWithParametersIfFlagged: JMSSenderCorrelationTracing send(Ljavax/jms/Queue;Ljavax/jms/Message;)V JMSOutgoingCorrelator "QueueSender"
+TraceOneMethodWithParametersIfFlagged: JMSSenderCorrelationTracing send(Ljavax/jms/Queue;Ljavax/jms/Message;IIJ)V JMSOutgoingCorrelator "QueueSender"
+
+#########JMSListenerTracing instruments methods defined in the interface javax.jms.MessageListener ######################
+
+SetFlag: JMSListenerCorrelationTracing
+IdentifyTwoFlagIntersectionAsAggregateFlag: JMSListenerTracing JMSCorrelationTracing JMSListenerCorrelationTracing
+
+TraceOneMethodWithParametersIfFlagged: JMSListenerCorrelationTracing onMessage(Ljavax/jms/Message;)V JMSByParamIncomingCorrelator "MessageListener"
+
+
+#########JMS Instrumentions copied from j2ee.pbd######################
+
+SkipPackagePrefixForFlag: $Proxy JMSListenerTracing
+
+

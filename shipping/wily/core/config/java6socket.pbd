@@ -1,0 +1,14 @@
+################################################################
+# From java2.pbd SocketTracing,the default for java 6 and lower,
+# disable it for java 7                        
+# 
+# Version: 10.6.0.165
+# Build: 990165
+#                                                                   
+# CA Wily Introscope(R) Version 10.6.0 Release 10.6.0.165
+# Copyright &copy; 2018 CA. All Rights Reserved.
+# Introscope(R) is a registered trademark of CA.
+################################################################
+
+SubstituteClassIfFlagged: SocketTracing java.net.SocketOutputStream java.net.ManagedSocketOutputStreamHighPerformanceNew
+SubstituteClassIfFlagged: SocketTracing java.net.SocketInputStream java.net.ManagedSocketInputStreamHighPerformanceNew

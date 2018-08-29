@@ -1,0 +1,52 @@
+########################################################################
+# Introscope BizRecording Directives File                              
+# 
+# Version: 10.6.0.165
+# Build: 990165
+#                                                                     
+# CA Wily Introscope(R) Version 10.6.0 Release 10.6.0.165
+# Copyright &copy; 2018 CA. All Rights Reserved.
+# Introscope(R) is a registered trademark of CA.
+########################################################################
+
+#########################################################
+# This file provide tracer definitions and directives to setup 
+# Business Recording.
+#########################################################
+
+SetTracerClassMapping: BizRecordingServletTracer com.wily.introscope.agent.bizrecording.BizRecordingServletTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerOrdering: BizRecordingServletTracer -10000
+
+SetTracerClassMapping: BizRecordingServletResponseTracer com.wily.introscope.agent.bizrecording.BizRecordingServletResponseTracer com.wily.introscope.probebuilder.validate.ResourceNameValidator
+SetTracerOrdering: BizRecordingServletResponseTracer 1000
+
+SetFlag: BizRecordingServletTracing
+TurnOn: BizRecordingServletTracing
+
+IdentifyClassAs: javax.servlet.http.HttpServlet BizRecordingServletTracing
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletTracing service(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;)V BizRecordingServletTracer "Servlets"
+
+IdentifyInheritedAs: javax.servlet.Filter BizRecordingServletTracing
+IdentifyInheritedAs: javax.servlet.FilterChain BizRecordingServletTracing
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletTracing doFilter BizRecordingServletTracer "Servlets"
+
+SetFlag: BizRecordingJSPTracing
+IdentifyTwoFlagIntersectionAsAggregateFlag: BizRecordingServletTracing JSPTracing BizRecordingJSPTracing
+TraceOneMethodWithParametersIfFlagged: BizRecordingJSPTracing _jspService BizRecordingServletTracer "Servlets"
+
+SetFlag: BizRecordingServletResponseTracing
+TurnOn: BizRecordingServletResponseTracing
+
+IdentifyInheritedAs: javax.servlet.http.HttpServletResponse BizRecordingServletResponseTracing
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletResponseTracing sendError BizRecordingServletResponseTracer "Servlets"
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletResponseTracing setStatus BizRecordingServletResponseTracer "Servlets"
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletResponseTracing setHeader(Ljava/lang/String;Ljava/lang/String;)V BizRecordingServletResponseTracer "Servlets"
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletResponseTracing setDateHeader(Ljava/lang/String;J)V BizRecordingServletResponseTracer "Servlets"
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletResponseTracing setIntHeader(Ljava/lang/String;I)V BizRecordingServletResponseTracer "Servlets"
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletResponseTracing addHeader(Ljava/lang/String;Ljava/lang/String;)V BizRecordingServletResponseTracer "Servlets"
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletResponseTracing addDateHeader(Ljava/lang/String;J)V BizRecordingServletResponseTracer "Servlets"
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletResponseTracing addIntHeader(Ljava/lang/String;I)V BizRecordingServletResponseTracer "Servlets"
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletResponseTracing setCharacterEncoding(Ljava/lang/String;)V BizRecordingServletResponseTracer "Servlets"
+
+IdentifyInheritedAs: javax.servlet.ServletResponse BizRecordingServletResponseTracing
+TraceOneMethodWithParametersIfFlagged: BizRecordingServletResponseTracing setContentType(Ljava/lang/String;)V BizRecordingServletResponseTracer "Servlets"

@@ -1,0 +1,17 @@
+#######################
+# Agent Initialization Configuration
+# ================
+
+InstrumentPoint: AgentInitialization
+
+
+#######################
+# Exception Configuration
+# ================
+# Introscope can trace all locations where exceptions are either
+# thrown or caught.  This can cause performance degradation so
+# it is not traced by default.  Uncomment the following lines
+# if you wish to turn on this tracing.
+
+# InstrumentPoint: ThrowException
+# InstrumentPoint: CatchException
